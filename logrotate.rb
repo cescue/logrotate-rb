@@ -16,14 +16,14 @@ config.merge!(DEFAULT_CONFIGURATION)
 
 abort('No directories specified. Nothing to do.') unless config['directories']
 
-pattern_to_rotate = %r{
+pattern_to_rotate = /
   ^
   .+                                           # filename
   \.(?:#{config['extensions'].join('|')})      # original file extension, eg .log
   #{'(?:.zip)?' if config['compress'] == true} # .zip extention if applicable
   (?:\.(\d+))?                                 # index after extension, eg .1
   $
-}x
+/x
 
 FileToRotate = Struct.new(:name, :index)
 files_to_rotate = []
