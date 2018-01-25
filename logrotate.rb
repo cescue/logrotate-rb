@@ -8,11 +8,11 @@ DEFAULT_CONFIGURATION = {
   'max_historic_files_per_log' => 10,
   'compress' => true,
   'extensions' => ['log']
-}.freeze
+}
 
-config = YAML.load_file('logrotaterb.yaml')
+config = DEFAULT_CONFIGURATION
 
-config.merge!(DEFAULT_CONFIGURATION)
+config.merge!(YAML.load_file('logrotaterb.yaml'))
 
 abort('No directories specified. Nothing to do.') unless config['directories']
 
