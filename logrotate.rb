@@ -51,12 +51,10 @@ files_to_rotate.each do |file|
 
   write_from = file.index.zero? ? file.name : "#{file.name}.#{file.index}"
 
+  write_to = "#{file.name}.#{file.index + 1}"
+
   if config['compress']
-    write_to = if file.index.zero?
-                 "#{file.name}.zip.#{file.index + 1}"
-               else
-                 "#{file.name}.#{file.index + 1}"
-               end
+    write_to = "#{file.name}.zip.#{file.index + 1}" if file.index.zero?
 
     Zip::File.open(write_to, Zip::File::CREATE) do |archive|
       archive.add(write_to, write_from)
@@ -64,8 +62,6 @@ files_to_rotate.each do |file|
 
     FileUtils.rm(write_from)
   else
-    write_to = "#{file.name}.#{file.index + 1}"
-
     FileUtils.mv(write_to, write_from)
   end
 end
