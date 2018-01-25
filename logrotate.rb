@@ -4,13 +4,13 @@ require 'fileutils'
 require 'zip'
 require 'yaml'
 
-DEFAULT_CONFIGURATION = {
+default_configuration = {
   'max_historic_files_per_log' => 10,
   'compress' => true,
   'extensions' => ['log']
 }
 
-config = DEFAULT_CONFIGURATION
+config = default_configuration
 
 config.merge!(YAML.load_file('logrotaterb.yaml'))
 
