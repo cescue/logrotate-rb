@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'zip'
 require 'yaml'
@@ -6,7 +8,7 @@ DEFAULT_CONFIGURATION = {
   'max_historic_files_per_log' => 10,
   'compress' => true,
   'extensions' => ['log']
-}
+}.freeze
 
 config = YAML.load_file('logrotaterb.yaml')
 
@@ -50,7 +52,6 @@ files_to_rotate.each do |file|
   end
 
   write_from = file.index.zero? ? file.name : "#{file.name}.#{file.index}"
-
   write_to = "#{file.name}.#{file.index + 1}"
 
   if config['compress']
