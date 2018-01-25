@@ -19,7 +19,7 @@ abort('No directories specified. Nothing to do.') unless config['directories']
 pattern_to_rotate = /
   ^
   .+                                           # filename
-  \.(?:#{config['extensions'].join('|')})      # original file extension, eg .log
+  \.(?:#{config['extensions'].join('|')})      # original file extension
   #{'(?:.zip)?' if config['compress'] == true} # .zip extention if applicable
   (?:\.(\d+))?                                 # index after extension, eg .1
   $
