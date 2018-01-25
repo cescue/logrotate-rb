@@ -22,9 +22,17 @@ pattern_to_rotate = %r{
   $
 }x
 
+FileToRotate = Struct.new(:name, :index)
+files_to_rotate = []
+
 config['directories'].each do |directory|
   Dir["#{directory}/*"].each do |entry|
     next unless entry =~ pattern_to_rotate
 
+    index = $1
+
+    files_to_rotate << FileToRotate.new(entry, $1 || 0)
   end
 end
+
+puts files_to_rotate
