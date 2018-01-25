@@ -32,7 +32,7 @@ config['directories'].each do |directory|
   Dir["#{directory}/*"].each do |entry|
     next unless entry =~ pattern_to_rotate
 
-    index = $1&.to_i || 0
+    index = Regexp.last_match[1]&.to_i || 0
 
     # Removing index extension will make it simpler to increment later on.
     filename = entry.reverse
