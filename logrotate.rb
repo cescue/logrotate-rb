@@ -43,7 +43,7 @@ config['directories'].each do |directory|
   end
 end
 
-files_to_rotate.sort_by! { |file| file.index }
+files_to_rotate.sort_by!(&:index)
 
 files_to_rotate.each do |file|
   if file.index == config['max_historic_files_per_log']&.to_i
