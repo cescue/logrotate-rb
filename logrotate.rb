@@ -63,6 +63,6 @@ files_to_rotate.each do |file|
 
     FileUtils.rm(write_from)
   else
-    FileUtils.mv(write_to, write_from)
+    FileUtils.mv(write_from, write_to)
   end
 end
