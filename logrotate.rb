@@ -32,7 +32,7 @@ config['directories'].each do |directory|
 
     index = $1&.to_i || 0
 
-    # Removing index extension makes incrementing it easier later on
+    # Removing index extension will make it simpler to increment later on.
     filename = entry.reverse
                     .sub("#{index}.", '')
                     .reverse
@@ -49,5 +49,12 @@ files_to_rotate.each do |file|
     next
   end
 
-  puts file
+  if config['compress']
+    write_to = "#{file.name}.zip.#{file.index + 1}"
+  else
+    write_to = "#{file.name}.zip.#{file.index + 1}"
+    write_from = file.index.zero? ? file.name : "#{file.name}.#{file.index}"
+
+    FileUtils.mv(write_to, write_from)
+  end
 end
