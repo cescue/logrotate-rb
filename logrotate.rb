@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'zip'
 require 'yaml'
 
 DEFAULT_CONFIGURATION = {
@@ -29,10 +30,24 @@ config['directories'].each do |directory|
   Dir["#{directory}/*"].each do |entry|
     next unless entry =~ pattern_to_rotate
 
-    index = $1
+    index = $1&.to_i || 0
 
-    files_to_rotate << FileToRotate.new(entry, $1 || 0)
+    # Removing index extension makes incrementing it easier later on
+    filename = entry.reverse
+                    .sub("#{index}.", '')
+                    .reverse
+
+    files_to_rotate << FileToRotate.new(filename, index)
   end
 end
 
-puts files_to_rotate
+files_to_rotate.sort_by! { |file| file.index }
+
+files_to_rotate.each do |file|
+  if file.index == config['max_historic_files_per_log']&.to_i
+    FileUtils.rm(file.name)
+    next
+  end
+
+  puts file
+end
