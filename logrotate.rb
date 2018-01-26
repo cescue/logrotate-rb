@@ -4,6 +4,11 @@ require 'fileutils'
 require 'zip'
 require 'yaml'
 
+config_file = ARGV.first
+
+abort('No configuration file provided.') unless config_file
+abort('Could not locate configuration file.') unless File.exist?(config_file)
+
 default_configuration = {
   'max_historic_files_per_log' => 10,
   'compress' => true,
@@ -12,7 +17,7 @@ default_configuration = {
 
 config = default_configuration
 
-config.merge!(YAML.load_file('logrotaterb.yaml'))
+config.merge!(YAML.load_file(config_file))
 
 abort('No directories specified. Nothing to do.') unless config['directories']
 
