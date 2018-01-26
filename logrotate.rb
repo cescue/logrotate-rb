@@ -52,7 +52,7 @@ files_to_rotate.sort_by!(&:index)
 
 files_to_rotate.each do |file|
   if file.index == config['max_historic_files_per_log']&.to_i
-    FileUtils.rm(file.name)
+    FileUtils.rm("#{file.name}.#{file.index}")
     next
   end
 
